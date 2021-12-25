@@ -19,7 +19,6 @@ fstream myfile;
     string line;
     while(getline(myfile, line)){
 auto priority = stoi(line.substr(0, line.find(' ')));
-cout<<typeid(priority).name()<<endl;
  auto task= line.substr(line.find(' ')+1, line.length());
       taskXprior.insert({priority, task});
       
@@ -28,7 +27,7 @@ cout<<typeid(priority).name()<<endl;
     myfile.open("file.txt", ios::out);
     {
      for(auto it: taskXprior){
-      myfile<<it.first<<it.second<<endl;
+      myfile<<it.first<<" "<<it.second<<endl;
     }
     myfile.close(); 
     }
@@ -60,7 +59,23 @@ int command= m[argv[1]];
 
    	      
    	      break;
+    case 2:
+          {
+            myfile.open("file.txt", ios::in);
+            if(myfile.is_open()){
+            	string line;
+            	int count=1;
+            	while(getline(myfile, line)){
+            		auto priority = stoi(line.substr(0, line.find(' ')));
+ 					auto task= line.substr(line.find(' ')+1, line.length());
+ 					cout<<count<<".) "<<task<<" ["<<priority<<"]"<<endl;
+ 					count++;
+            	}
+            	myfile.close();
+            }
 
+          }
+          break;
    	case 5: 
    	    cout<<"Usage :-";
 		cout<<"	\n	$ ./task add 2 hello world    # Add a new item with priority 2 and text \"hello world\" to the list";
