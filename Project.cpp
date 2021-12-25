@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+
 int main(int argc, char** argv)
 {
 map<string, int> m;
@@ -12,18 +13,54 @@ m["help"]= 5;
 m["report"]=6;
 
 fstream myfile;
-
+  multimap<int, string> taskXprior;
+  myfile.open("file.txt", ios::in);
+  if(myfile.is_open()){
+    string line;
+    while(getline(myfile, line)){
+auto priority = stoi(line.substr(0, line.find(' ')));
+cout<<typeid(priority).name()<<endl;
+ auto task= line.substr(line.find(' ')+1, line.length());
+      taskXprior.insert({priority, task});
+      
+    }
+    myfile.close();
+    myfile.open("file.txt", ios::out);
+    {
+     for(auto it: taskXprior){
+      myfile<<it.first<<it.second<<endl;
+    }
+    myfile.close(); 
+    }
+    
+  }
 int command= m[argv[1]];
 
    switch(command){
-   	case 1:myfile.open("task.txt", ios::app);
-   	       if(myfile.is_open())
-   	       {
-   	       	myfile<<argv[2]<<" "<<argv[3]<<"\n";
-   	       }
-   	       myfile.close();
+   	case 1:
+         {
+          auto priority = stoi(argv[2]);
+          string task;
+          for(int i=3; i<argc; i++)
+          {
+          	task+= argv[i];
+          	task+=' ';
+          } 
+          taskXprior.insert({priority, task});
+          myfile.open("file.txt", ios::out);
+          if(myfile.is_open())
+          {
+          	for(auto it: taskXprior){
+               cout<<it.first<<" "<<it.second<<endl;
+          		myfile<<it.first<<" "<<it.second<<endl;
+          	}
+          	myfile.close();
+          }
+         } 
+
    	      
    	      break;
+
    	case 5: 
    	    cout<<"Usage :-";
 		cout<<"	\n	$ ./task add 2 hello world    # Add a new item with priority 2 and text \"hello world\" to the list";
