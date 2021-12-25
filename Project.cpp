@@ -68,7 +68,7 @@ int command= m[argv[1]];
             	while(getline(myfile, line)){
             		auto priority = stoi(line.substr(0, line.find(' ')));
  					auto task= line.substr(line.find(' ')+1, line.length());
- 					cout<<count<<".) "<<task<<" ["<<priority<<"]"<<endl;
+ 					cout<<count<<".) "<<task<<"["<<priority<<"]"<<endl;
  					count++;
             	}
             	myfile.close();
@@ -76,6 +76,28 @@ int command= m[argv[1]];
 
           }
           break;
+
+    case 3:
+          {
+          	auto index= stoi(argv[2]);
+          	// cout<<typeid(index).name()<<endl;
+          	auto it= taskXprior.begin();
+          	for(int i=0; i<index-1; i++)
+          	{
+          		it++;
+          	}
+          	taskXprior.erase(it);
+          	myfile.open("file.txt", ios::out);
+    	   {
+     		for(auto it: taskXprior){
+      		myfile<<it.first<<" "<<it.second<<endl;
+    		}
+    		myfile.close(); 
+    		}
+
+          }
+          break;
+
    	case 5: 
    	    cout<<"Usage :-";
 		cout<<"	\n	$ ./task add 2 hello world    # Add a new item with priority 2 and text \"hello world\" to the list";
